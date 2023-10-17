@@ -30,10 +30,10 @@ class GFG {
 class Solution {
     int missingNumber(int array[], int n) {
         // Your Code Here
-        int xor = 0;
+        int sum = n * (n + 1)/2;
         for(int i = 0; i < array.length; i++){
-            xor ^= (i+1)^array[i];
+            sum -= array[i];
         }
-        return xor^n;
+        return sum;
     }
 }
