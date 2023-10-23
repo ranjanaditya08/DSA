@@ -97,11 +97,11 @@ class Solution {
     // Sort the list of pairs based on the first element
     values.sort(new Comparator<pair>() {
         public int compare(pair p1, pair p2) {
-            return Long.compare(p1.first, p2.first);
+            return (int)(p1.first-p2.first);
         }
     });
 
-    return values.toArray(new pair[0]);
+    return values.toArray(new pair[values.size()]);
         
     }
 }
