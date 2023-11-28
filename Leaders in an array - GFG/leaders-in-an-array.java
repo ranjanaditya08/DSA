@@ -47,16 +47,17 @@ class Array {
 
 class Solution{
     //Function to find the leaders in the array.
-    static ArrayList<Integer> leaders(int arr[], int n){
+    static ArrayList<Integer> leaders(int[] nums, int n){
         // Your code here
-        ArrayList<Integer> leaders = new ArrayList<>();
-        int max = arr[n-1];
-        for(int i = n-1; i >= 0; i--){
-            if(arr[i] >= max){
-                max = arr[i];
-                leaders.add(0,max);
+        ArrayList<Integer> leader = new ArrayList<>();
+        int max = nums[n-1];
+        leader.add(0,nums[n-1]);
+        for(int i = n-2; i >= 0; i--){
+            if(nums[i] >= max){
+                max = nums[i];
+                leader.add(0,max);
             }
         }
-        return leaders;
+        return leader;
     }
 }
