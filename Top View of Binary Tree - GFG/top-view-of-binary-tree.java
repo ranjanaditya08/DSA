@@ -126,39 +126,40 @@ class Node{
 
 class Solution
 {
-    static class Pair {
+    static class Tuple {
+        int x_axis;
+        int y_axis;
         Node node;
-        int vertical;
-        Pair(Node _node,int _vertical){
+        Tuple(int _x,Node _node){
+            this.x_axis = _x;
             this.node = _node;
-            this.vertical = _vertical;
         }
     }
-    //Function to return a list of nodes visible from the top view 
-    //from left to right in Binary Tree.
     static ArrayList<Integer> topView(Node root)
     {
         // add your code
         Map<Integer,ArrayList<Integer>> map = new TreeMap<>();
-        Queue<Pair> q = new LinkedList<>();
-        q.offer(new Pair(root,0));
-        
+        Queue<Tuple> q = new LinkedList<>();
+        q.offer(new Tuple(0,root));
         while(!q.isEmpty()){
-            Node n = q.peek().node;
-            int v = q.peek().vertical;
-            q.poll();
-            
-            if(!map.containsKey(v)){
-                map.put(v,new ArrayList<>());
+            Tuple tuple = q.poll();
+            int x = tuple.x_axis;
+            Node curr = tuple.node;
+            if(!map.containsKey(x)){
+                map.put(x,new ArrayList<Integer>());
             }
-            map.get(v).add(n.data);
-            if(n.left != null) q.offer(new Pair(n.left,v-1));
-            if(n.right != null) q.offer(new Pair(n.right,v+1));
+            map.get(x).add(curr.data);
+            if(curr.left != null){
+                q.offer(new Tuple(x-1,curr.left));
+            }
+            if(curr.right != null){
+                q.offer(new Tuple(x+1,curr.right));
+            }
         }
-        ArrayList<Integer> topView = new ArrayList<>();
+        ArrayList<Integer> res = new ArrayList<>();
         for(ArrayList<Integer> list : map.values()){
-            topView.add(list.get(0));
+            res.add(list.get(0));
         }
-        return topView;
+        return res;
     }
 }
