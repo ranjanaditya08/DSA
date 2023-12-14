@@ -119,38 +119,41 @@ class GfG {
 
 class Solution
 {
-    class Pair {
+    //Function to return a list containing the bottom view of the given tree.
+    static class Tuple {
+        int x_axis;
+        int y_axis;
         Node node;
-        int vertical;
-        Pair(Node _node,int _vertical){
+        Tuple(int _x,Node _node){
+            this.x_axis = _x;
             this.node = _node;
-            this.vertical = _vertical;
         }
     }
-    //Function to return a list containing the bottom view of the given tree.
     public ArrayList <Integer> bottomView(Node root)
     {
         // Code here
         Map<Integer,ArrayList<Integer>> map = new TreeMap<>();
-        Queue<Pair> q = new LinkedList<>();
-        
-        q.offer(new Pair(root,0));
+        Queue<Tuple> q = new LinkedList<>();
+        q.offer(new Tuple(0,root));
         while(!q.isEmpty()){
-            Node n = q.peek().node;
-            int v = q.peek().vertical;
-            q.poll();
-            
-            if(!map.containsKey(v)){
-                map.put(v,new ArrayList<>());
+            Tuple tuple = q.poll();
+            int x = tuple.x_axis;
+            Node curr = tuple.node;
+            if(!map.containsKey(x)){
+                map.put(x,new ArrayList<Integer>());
             }
-            map.get(v).add(n.data);
-            if(n.left != null) q.offer(new Pair(n.left,v-1));
-            if(n.right != null) q.offer(new Pair(n.right,v+1));
+            map.get(x).add(curr.data);
+            if(curr.left != null){
+                q.offer(new Tuple(x-1,curr.left));
+            }
+            if(curr.right != null){
+                q.offer(new Tuple(x+1,curr.right));
+            }
         }
-         ArrayList<Integer> bottomView = new ArrayList<>();
+        ArrayList<Integer> res = new ArrayList<>();
         for(ArrayList<Integer> list : map.values()){
-            bottomView.add(list.get(list.size()-1));
+            res.add(list.get(list.size()-1));
         }
-        return bottomView;
+        return res;
     }
 }
